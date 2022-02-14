@@ -1,40 +1,74 @@
 'use strict'
 
+// Resgatando elementos e declarando variáveis
 const semaforo = document.getElementById('semaforo')
-const vermelho = document.getElementById('vermelho')
-const amarelo = document.getElementById('amarelo')
-const verde = document.getElementById('verde')
-const automatico = document.getElementById('automatico')
-const idAutomatico = null
+const btnVermelho = document.getElementById('btnVermelho')
+const btnAmarelo = document.getElementById('btnAmarelo')
+const btnVerde = document.getElementById('btnVerde')
+const btnAutomatico = document.getElementById('btnAutomatico')
+let idAutomatico = null
+let contador = 0
 
-const luzVermelha = () => semaforo.src = './img/vermelho.png'
-
-const luzAmarela = () => semaforo.src = './img/amarelo.png'
-
-const luzVerde = () => semaforo.src = './img/verde.png'
+// Verificando se a função 'ligarAutomatico' está ativa
+const autoLigado = () => idAutomatico != null 
 
 
+// Funções para acender farol
+const ligarVermelho = () => semaforo.src = './img/vermelho.png'
+const ligarAmarelo = () => semaforo.src = './img/amarelo.png' 
+const ligarVerde = () => semaforo.src = './img/verde.png' 
 
-const mudarLuzAutomatico = () => {
 
-     if ( luzVermelha()){
-        return luzVerde()
-    }else if( luzVerde()){
-        return luzAmarela()
-    }else if ( luzAmarela()) {
-        return luzVermelha()
+// Alternando entre as cores
+const alternarCores = () => {
+
+    if(contador == 0){
+        ligarVerde()
+        contador++
+    }else if(contador == 1) {
+        ligarAmarelo()
+        contador++
+    }else if(contador == 2){
+        ligarVermelho()
+        contador = 0
     }
+
 }
 
-const luzAutomatico = () => {
-    if (idAutomatico == null) {
-        idAutomatico = setInterval(mudarLuzAutomatico, 500)
+const ligarAutomatico = () => {
+    if(idAutomatico == null) {
+        idAutomatico = setInterval(alternarCores, 800)
     }
+   
 }
 
-vermelho.addEventListener('click', luzVermelha)
-amarelo.addEventListener('click', luzAmarela)
-verde.addEventListener('click', luzVerde)
-automatico.addEventListener('click', luzAutomatico)
-console.log.automatico
-semaforo.addEventListener('click', null)
+// Adicionando eventos
+
+btnVerde.addEventListener('click', () => {
+    if(autoLigado) {
+        clearInterval(idAutomatico)
+        idAutomatico = null;
+    }
+    contador = 0
+    ligarVerde()
+})
+
+btnAmarelo.addEventListener('click', () => {
+    if(autoLigado) {
+        clearInterval(idAutomatico)
+        idAutomatico = null;
+    }
+    contador = 1
+    ligarAmarelo()
+})
+
+btnVermelho.addEventListener('click', () => {
+    if(autoLigado) {
+        clearInterval(idAutomatico)
+        idAutomatico = null;
+    }
+    contador = 2
+    ligarVermelho()
+})
+
+btnAutomatico.addEventListener('click', ligarAutomatico)
